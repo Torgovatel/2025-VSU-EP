@@ -12,7 +12,7 @@ public class HelloController {
     }
 
     @GetMapping("/greet")
-    public String greet(@RequestParam(defaultValue = "Гость") String name) {
+    public String greet(@RequestParam(name = "name", defaultValue = "Гость") String name) {
         return "Привет, " + name + "!";
     }
 }

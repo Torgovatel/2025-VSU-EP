@@ -17,7 +17,7 @@ public class UserController {
     }
 
     @PostMapping
-    public User addUser(@RequestParam String name, @RequestParam int age) {
+    public User addUser(@RequestParam("name") String name, @RequestParam("age") int age) {
         return userService.addUser(name, age);
     }
 
@@ -27,7 +27,7 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
-    public boolean deleteUser(@PathVariable long id) {
+    public boolean deleteUser(@PathVariable("id") long id) {
         return userService.deleteUser(id);
     }
 }
