@@ -1,0 +1,120 @@
+[
+  {
+    "id": "dfced1f6-3a00-4762-a564-fa2535eb6091",
+    "firstName": "Alice",
+    "lastName": "Smith",
+    "age": 25,
+    "email": "alice.smith@example.com",
+    "description": "This is Alice's profile.",
+    "friends": [
+      "7cc2e1df-85c6-459e-bb78-0efbf9c9c4e4",
+      "e95a013d-ea05-4f9e-ac24-13ff4a93b987",
+      "e973cc81-9aa6-4934-9f95-04d08a95175d"
+    ]
+  },
+  {
+    "id": "838f2027-0fb7-4da1-8c67-abec23876d0c",
+    "firstName": "Bob",
+    "lastName": "Brown",
+    "age": 23,
+    "email": "bob.brown@example.com",
+    "description": "This is Bob's profile.",
+    "friends": [
+      "5ed8581d-d8a2-4281-8720-68fd0a97c9c3",
+      "dfced1f6-3a00-4762-a564-fa2535eb6091"
+    ]
+  },
+  {
+    "id": "e973cc81-9aa6-4934-9f95-04d08a95175d",
+    "firstName": "Charlie",
+    "lastName": "Davis",
+    "age": 37,
+    "email": "charlie.davis@example.com",
+    "description": "This is Charlie's profile.",
+    "friends": [
+      "838f2027-0fb7-4da1-8c67-abec23876d0c",
+      "51408d56-a3cc-4046-acc8-3a1963cbfa4b"
+    ]
+  },
+  {
+    "id": "5ed8581d-d8a2-4281-8720-68fd0a97c9c3",
+    "firstName": "Diana",
+    "lastName": "Evans",
+    "age": 29,
+    "email": "diana.evans@example.com",
+    "description": "This is Diana's profile.",
+    "friends": [
+      "838f2027-0fb7-4da1-8c67-abec23876d0c",
+      "e973cc81-9aa6-4934-9f95-04d08a95175d"
+    ]
+  },
+  {
+    "id": "7cc2e1df-85c6-459e-bb78-0efbf9c9c4e4",
+    "firstName": "Ethan",
+    "lastName": "Foster",
+    "age": 31,
+    "email": "ethan.foster@example.com",
+    "description": "This is Ethan's profile.",
+    "friends": [
+      "dfced1f6-3a00-4762-a564-fa2535eb6091"
+    ]
+  },
+  {
+    "id": "e95a013d-ea05-4f9e-ac24-13ff4a93b987",
+    "firstName": "Fiona",
+    "lastName": "Garcia",
+    "age": 26,
+    "email": "fiona.garcia@example.com",
+    "description": "This is Fiona's profile.",
+    "friends": [
+      "dfced1f6-3a00-4762-a564-fa2535eb6091",
+      "b30d82c7-e6a0-48d2-88cf-0c340776d21f"
+    ]
+  },
+  {
+    "id": "51408d56-a3cc-4046-acc8-3a1963cbfa4b",
+    "firstName": "George",
+    "lastName": "Hill",
+    "age": 33,
+    "email": "george.hill@example.com",
+    "description": "This is George's profile.",
+    "friends": [
+      "e973cc81-9aa6-4934-9f95-04d08a95175d"
+    ]
+  },
+  {
+    "id": "b30d82c7-e6a0-48d2-88cf-0c340776d21f",
+    "firstName": "Hannah",
+    "lastName": "Irwin",
+    "age": 30,
+    "email": "hannah.irwin@example.com",
+    "description": "This is Hannah's profile.",
+    "friends": [
+      "e95a013d-ea05-4f9e-ac24-13ff4a93b987",
+      "51408d56-a3cc-4046-acc8-3a1963cbfa4b"
+    ]
+  },
+  {
+    "id": "e0ef89b6-3347-4d8e-aedf-2f3e9e4b20dc",
+    "firstName": "Ian",
+    "lastName": "Jones",
+    "age": 28,
+    "email": "ian.jones@example.com",
+    "description": "This is Ian's profile.",
+    "friends": [
+      "b30d82c7-e6a0-48d2-88cf-0c340776d21f"
+    ]
+  },
+  {
+    "id": "19a25e8f-0a75-44b6-a7f5-8d5c26044e51",
+    "firstName": "Julia",
+    "lastName": "King",
+    "age": 35,
+    "email": "julia.king@example.com",
+    "description": "This is Julia's profile.",
+    "friends": [
+      "e0ef89b6-3347-4d8e-aedf-2f3e9e4b20dc",
+      "dfced1f6-3a00-4762-a564-fa2535eb6091"
+    ]
+  }
+]
