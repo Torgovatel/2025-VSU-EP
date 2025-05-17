@@ -4,12 +4,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
- * Задача: Необходимо создать приложение на Java, которое будет управлять пользователями.
- * Приложение должно позволять:
- * 1. Добавлять нового пользователя.
- * 2. Получать список всех пользователей.
- * 3. Удалять пользователя по ID.
- * Реализовать все функции с использованием Spring Boot.
+ * Описание задачи заложено в README.md в корне репозитория
  */
 @SpringBootApplication
 public class DemoApplication {
