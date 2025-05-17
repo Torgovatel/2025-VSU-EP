@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <meta charset="UTF-8">
+        <title>API Документация</title>
+        <style>
+            body {
+                font-family: sans-serif;
+                line-height: 1.6;
+                max-width: 800px;
+                margin: auto;
+                padding: 20px;
+            }
+            h1, h2 {
+                color: #333;
+            }
+            table {
+                width: 100%;
+                border-collapse: collapse;
+                margin-top: 1em;
+            }
+            th, td {
+                border: 1px solid #999;
+                padding: 8px 12px;
+                text-align: left;
+            }
+            th {
+                background: #f0f0f0;
+            }
+            code {
+                background: #f5f5f5;
+                padding: 2px 4px;
+                border-radius: 3px;
+                font-family: monospace;
+            }
+            hr {
+                margin: 2em 0;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>🛠 API</h1>
+        <p>Все запросы начинаются с префикса: <code>/api/v1</code></p>
+        <table>
+            <thead>
+            <tr>
+                <th>Метод</th>
+                <th>Путь</th>
+                <th>Описание</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>GET</td>
+                <td><code>/users</code></td>
+                <td>Получить всех пользователей (фильтрация: <code>firstName</code>, <code>lastName</code>, <code>age</code>, <code>email</code>)</td>
+            </tr>
+            <tr>
+                <td>GET</td>
+                <td><code>/user/{uid}</code></td>
+                <td>Получить одного пользователя по <code>uid</code></td>
+            </tr>
+            <tr>
+                <td>GET</td>
+                <td><code>/user/{uid}/friends</code></td>
+                <td>Получить список друзей пользователя (фильтрация по тем же полям)</td>
+            </tr>
+            <tr>
+                <td>DELETE</td>
+                <td><code>/user/{uid}</code></td>
+                <td>Удалить пользователя и убрать его из списков друзей других пользователей</td>
+            </tr>
+            <tr>
+                <td>POST</td>
+                <td><code>/user</code></td>
+                <td>Создать нового пользователя (<strong>обязательные поля</strong>: <code>firstName</code>, <code>lastName</code>, <code>email</code>)</td>
+            </tr>
+            <tr>
+                <td>PUT</td>
+                <td><code>/user/{uid}</code></td>
+                <td>Обновить данные пользователя (все поля, <strong>кроме</strong> <code>uid</code>, <code>email</code>)</td>
+            </tr>
+            <tr>
+                <td>PATCH</td>
+                <td><code>/user/{uid}/friends/add</code></td>
+                <td>Добавить друга (тело запроса: <code>{ "friendUid": "..." }</code>)</td>
+            </tr>
+            <tr>
+                <td>PATCH</td>
+                <td><code>/user/{uid}/friends/rm</code></td>
+                <td>Удалить друга (тело запроса: <code>{ "friendUid": "..." }</code>)</td>
+            </tr>
+            </tbody>
+        </table>
+        <hr>
+        <h2>📁 Хранение данных</h2>
+        <ul>
+            <li><strong>Локальный файл</strong>: <code>users.json</code></li>
+            <li><strong>Расположение</strong>: в директории ресурса или рядом с модулем <code>core</code></li>
+            <li><strong>При изменении данных</strong>: сериализуется <strong>весь список</strong> пользователей</li>
+            <li><strong>При запуске приложения</strong>: происходит <strong>загрузка всех данных в память</strong></li>
+        </ul>
+        <hr>
+        <h2>🛡 Валидации и ошибки</h2>
+        <ul>
+            <li><strong>Email</strong> должен быть валидным (проверка через <strong>RegEx</strong>)</li>
+            <li><strong>UID друга</strong> должен <strong>существовать</strong> в системе</li>
+        </ul>
+    </body>
+</html>

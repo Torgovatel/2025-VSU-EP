@@ -5,6 +5,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
 import java.util.function.Predicate;
@@ -21,16 +23,32 @@ public class UserService {
     private final ObjectMapper mapper;
     private List<User> users;
 
-    /**
-     * Создает сервис и загружает данные из файла.
-     *
-     * @param jsonPath путь к файлу users.json
-     * @throws RuntimeException при ошибках чтения файла
-     */
-    public UserService(String jsonPath) throws RuntimeException {
-        this.storageFile = Path.of(jsonPath).toFile();
+    public UserService(String externalPath) {
+        this.storageFile = new File(externalPath);
         this.mapper = new ObjectMapper();
-        loadUsers();
+
+        if (!storageFile.exists()) {
+            try {
+                try (InputStream is = getClass().getClassLoader().getResourceAsStream("users.json")) {
+                    if (is == null) {
+                        storageFile.getParentFile().mkdirs();
+                        storageFile.createNewFile();
+                        mapper.writeValue(storageFile, new ArrayList<User>());
+                    } else {
+                        storageFile.getParentFile().mkdirs();
+                        Files.copy(is, storageFile.toPath());
+                    }
+                }
+                loadUsers();
+            } catch (IOException e) {
+                throw new RuntimeException("Failed to initialize UserService", e);
+            }
+        } else {
+            loadUsers();
+        }
+        System.out.println("UserService using storage file: " + storageFile.getAbsolutePath());
+        System.out.println("File exists: " + storageFile.exists());
+        System.out.println("File size: " + (storageFile.exists() ? storageFile.length() : "N/A"));
     }
 
     /**
