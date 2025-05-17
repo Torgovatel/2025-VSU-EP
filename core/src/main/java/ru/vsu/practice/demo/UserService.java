@@ -115,14 +115,28 @@ public class UserService {
      * @throws IllegalArgumentException если данные некорректны
      */
     public synchronized User update(String uid, User patch) throws IllegalArgumentException {
-        User existing = getById(uid);
-        existing.setFirstName(patch.getFirstName());
-        existing.setLastName(patch.getLastName());
-        existing.setAge(patch.getAge());
-        existing.setDescription(patch.getDescription());
-        existing.setFriends(patch.getFriends());
+        User existingUser = getById(uid);
+
+        if (patch.getFirstName() != null) {
+            existingUser.setFirstName(patch.getFirstName());
+        }
+        if (patch.getLastName() != null) {
+            existingUser.setLastName(patch.getLastName());
+        }
+        if (patch.getAge() != 0) {
+            existingUser.setAge(patch.getAge());
+        }
+
+        if (patch.getDescription() != null) {
+            existingUser.setDescription(patch.getDescription());
+        }
+        if (patch.getFriends() != null) {
+            existingUser.setFriends(patch.getFriends());
+        }
+
         saveUsers();
-        return existing;
+
+        return existingUser;
     }
 
     /**

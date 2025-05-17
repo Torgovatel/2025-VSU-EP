@@ -24,7 +24,7 @@ public class User {
     private int age;
     private String email;
     private String description;
-    private List<String> friends;
+    private List<String> friends = new ArrayList<>();
 
     /**
      * Конструктор по умолчанию, необходимый для корректной десериализации (Jackson).
@@ -90,6 +90,7 @@ public class User {
         return age;
     }
 
+    public Integer GetAge() {return age;}
     /**
      * @return Адрес электронной почты.
      */
