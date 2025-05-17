@@ -7,7 +7,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -46,9 +45,6 @@ public class UserService {
         } else {
             loadUsers();
         }
-        System.out.println("UserService using storage file: " + storageFile.getAbsolutePath());
-        System.out.println("File exists: " + storageFile.exists());
-        System.out.println("File size: " + (storageFile.exists() ? storageFile.length() : "N/A"));
     }
 
     /**
