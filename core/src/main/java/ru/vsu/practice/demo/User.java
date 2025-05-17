@@ -30,6 +30,7 @@ public class User {
      * Конструктор по умолчанию, необходимый для корректной десериализации (Jackson).
      */
     public User() {
+        this.id = UUID.randomUUID().toString();
     }
 
     /**
@@ -52,6 +53,13 @@ public class User {
         setEmail(email);
         setDescription(description);
         setFriends(friends);
+    }
+
+    public User create(User user) {
+        if (user.id == null) {
+            user.id = UUID.randomUUID().toString();
+        }
+        return user;
     }
 
     /**
