@@ -34,7 +34,7 @@ public class UserController {
     }
 
     @GetMapping("/user/{uid}")
-    public ResponseEntity<User> getUserById(@PathVariable String uid) {
+    public ResponseEntity<User> getUserById(@PathVariable("uid") String uid) {
         log.info("GET /user/{}", uid);
         try {
             User user = userService.getById(uid);
@@ -48,7 +48,7 @@ public class UserController {
 
     @GetMapping("/user/{uid}/friends")
     public ResponseEntity<List<User>> getUserFriends(
-            @PathVariable String uid,
+            @PathVariable("uid") String uid,
             @RequestParam Map<String, String> filters) {
         log.info("GET /user/{}/friends with filters: {}", uid, filters);
         try {
@@ -62,7 +62,7 @@ public class UserController {
     }
 
     @DeleteMapping("/user/{uid}")
-    public ResponseEntity<Void> deleteUser(@PathVariable String uid) {
+    public ResponseEntity<Void> deleteUser(@PathVariable("uid") String uid) {
         log.info("DELETE /user/{}", uid);
         try {
             userService.delete(uid);
@@ -88,7 +88,7 @@ public class UserController {
     }
 
     @PutMapping("/user/{uid}")
-    public ResponseEntity<User> updateUser(@PathVariable String uid, @RequestBody User patch) {
+    public ResponseEntity<User> updateUser(@PathVariable("uid") String uid, @RequestBody User patch) {
         log.info("PUT /user/{} with patch: {}", uid, patch);
         try {
             User updated = userService.update(uid, patch);
@@ -101,7 +101,7 @@ public class UserController {
     }
 
     @PatchMapping("/user/{uid}/friends/add")
-    public ResponseEntity<Void> addFriend(@PathVariable String uid, @RequestBody Map<String, String> payload) {
+    public ResponseEntity<Void> addFriend(@PathVariable("uid") String uid, @RequestBody Map<String, String> payload) {
         String friendUid = payload.get("friendUid");
         log.info("PATCH /user/{}/friends/add with friendUid: {}", uid, friendUid);
         try {
@@ -115,7 +115,7 @@ public class UserController {
     }
 
     @PatchMapping("/user/{uid}/friends/rm")
-    public ResponseEntity<Void> removeFriend(@PathVariable String uid, @RequestBody Map<String, String> payload) {
+    public ResponseEntity<Void> removeFriend(@PathVariable("uid") String uid, @RequestBody Map<String, String> payload) {
         String friendUid = payload.get("friendUid");
         log.info("PATCH /user/{}/friends/rm with friendUid: {}", uid, friendUid);
         try {
@@ -128,4 +128,3 @@ public class UserController {
         }
     }
 }
-
