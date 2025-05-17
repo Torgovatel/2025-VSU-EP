@@ -1,21 +1,27 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
 		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+
 	<modelVersion>4.0.0</modelVersion>
+
 	<groupId>ru.vsu.practice</groupId>
 	<artifactId>demo-parent</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
+
 	<modules>
 		<module>core</module>
 		<module>web</module>
 		<module>aggregator</module>
 	</modules>
+
 	<properties>
 		<java.version>17</java.version>
 		<spring.boot.version>3.4.5</spring.boot.version>
 		<logback.version>1.2.11</logback.version>
+		<maven.compiler.release>${java.version}</maven.compiler.release>
 	</properties>
+
 	<dependencyManagement>
 		<dependencies>
 			<!-- Spring Boot BOM -->
@@ -28,10 +34,12 @@
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
+
 	<build>
 		<pluginManagement>
 			<plugins>
-				<!-- Assembly plugin settings inherited -->
+
+				<!-- Maven Assembly Plugin -->
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-assembly-plugin</artifactId>
@@ -56,15 +64,18 @@
 						</execution>
 					</executions>
 				</plugin>
+
+				<!-- Maven Compiler Plugin -->
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-compiler-plugin</artifactId>
 					<version>3.11.0</version>
 					<configuration>
-						<source>${java.version}</source>
-						<target>${java.version}</target>
+						<release>${maven.compiler.release}</release>
 					</configuration>
 				</plugin>
+
+				<!-- JaCoCo plugin -->
 				<plugin>
 					<groupId>org.jacoco</groupId>
 					<artifactId>jacoco-maven-plugin</artifactId>
@@ -85,7 +96,23 @@
 						</execution>
 					</executions>
 				</plugin>
+
+				<!-- Spring Boot Maven Plugin -->
+				<plugin>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-maven-plugin</artifactId>
+					<version>${spring.boot.version}</version>
+					<executions>
+						<execution>
+							<goals>
+								<goal>repackage</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+
 			</plugins>
 		</pluginManagement>
 	</build>
+
 </project>
