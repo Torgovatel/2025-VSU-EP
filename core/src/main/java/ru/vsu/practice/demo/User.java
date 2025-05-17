@@ -137,6 +137,9 @@ public class User {
         }
         this.lastName = lastName;
     }
+    public void setId(String uid) {
+        this.id = uid;
+    }
 
     /**
      * Устанавливает возраст пользователя.

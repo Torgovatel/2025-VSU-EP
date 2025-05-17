@@ -15,6 +15,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 public class UserServiceTest {
 
@@ -48,6 +49,21 @@ public class UserServiceTest {
     public void testGetAllUsers() {
         List<User> users = userService.getAll(Collections.emptyMap());
         assertEquals(2, users.size());
+    }
+
+    @Test
+    public void testGetAllUsersWithSpy() {
+        UserService spyService = spy(userService);
+
+        User user1 = new User("Mock", "User", 20, "mock@example.com", "desc", List.of());
+        doReturn(List.of(user1)).when(spyService).getAll(anyMap());
+
+        List<User> users = spyService.getAll(Collections.emptyMap());
+
+        assertEquals(1, users.size());
+        assertEquals("Mock", users.get(0).getFirstName());
+
+        verify(spyService).getAll(Collections.emptyMap());
     }
 
     /**

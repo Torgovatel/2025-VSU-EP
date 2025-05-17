@@ -20,6 +20,10 @@ public class UserController {
         this.userService = new UserService("users.json");
     }
 
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
+
     @GetMapping("/users")
     public ResponseEntity<List<User>> getAllUsers(@RequestParam Map<String, String> filters) {
         log.info("GET /users with filters: {}", filters);

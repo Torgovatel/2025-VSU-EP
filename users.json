@@ -78,12 +78,4 @@
   "email" : "julia.king@example.com",
   "description" : "This is Julia's profile.",
   "friends" : [ "e0ef89b6-3347-4d8e-aedf-2f3e9e4b20dc", "dfced1f6-3a00-4762-a564-fa2535eb6091" ]
-}, {
-  "id" : "b9026804-5490-4753-bc4c-23d98c68a9b6",
-  "firstName" : "Andrey",
-  "lastName" : "Kazanin",
-  "age" : 23,
-  "email" : "andrey.kazanin.02@mail.ru",
-  "description" : "Автоматик бы",
-  "friends" : [ ]
 } ]

@@ -1,9 +1,9 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-    <groupId>ru.vsu.practice</groupId>
-    <artifactId>demo-parent</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+        <groupId>ru.vsu.practice</groupId>
+        <artifactId>demo-parent</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
     </parent>
     <artifactId>aggregator</artifactId>
     <packaging>jar</packaging>
@@ -33,6 +33,30 @@
                     </execution>
                 </executions>
             </plugin>
+
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.8.10</version>
+                <executions>
+                    <!-- Включаем агент JaCoCo перед тестами -->
+                    <execution>
+                        <id>prepare-agent</id>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <!-- Генерируем отчет после тестов -->
+                    <execution>
+                        <id>report</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
         </plugins>
     </build>
 </project>
