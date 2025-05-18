@@ -21,8 +21,11 @@ public class User {
 
     /** Паттерн для проверки UUID. */
     private static final Pattern UUID_PATTERN =
-            Pattern.compile("^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-" +
-                    "[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$");
+            Pattern.compile("^[0-9a-fA-F]{8}-"
+                    + "[0-9a-fA-F]{4}-"
+                    + "[1-5][0-9a-fA-F]{3}-"
+                    + "[89abAB][0-9a-fA-F]{3}-"
+                    + "[0-9a-fA-F]{12}$");
 
     /** Уникальный идентификатор пользователя. */
     private String id;
@@ -46,7 +49,8 @@ public class User {
     private List<String> friends = new ArrayList<>();
 
     /**
-     * Конструктор по умолчанию, необходимый для корректной десериализации (Jackson).
+     * Конструктор по умолчанию, необходимый
+     * для корректной десериализации (Jackson).
      */
     public User() {
         this.id = UUID.randomUUID().toString();
@@ -88,30 +92,65 @@ public class User {
         return user;
     }
 
+    /**
+     * Возвращает уникальный идентификатор пользователя.
+     *
+     * @return ID пользователя
+     */
     public String getId() {
-        return id;
+        return this.id;
     }
 
+    /**
+     * Возвращает имя пользователя.
+     *
+     * @return имя пользователя
+     */
     public String getFirstName() {
-        return firstName;
+        return this.firstName;
     }
 
+    /**
+     * Возвращает фамилию пользователя.
+     *
+     * @return фамилия пользователя
+     */
     public String getLastName() {
-        return lastName;
+        return this.lastName;
     }
 
+    /**
+     * Возвращает возраст пользователя.
+     *
+     * @return возраст пользователя
+     */
     public int getAge() {
-        return age;
+        return this.age;
     }
 
+    /**
+     * Возвращает email пользователя.
+     *
+     * @return email пользователя
+     */
     public String getEmail() {
-        return email;
+        return this.email;
     }
 
+    /**
+     * Возвращает описание пользователя.
+     *
+     * @return описание пользователя
+     */
     public String getDescription() {
-        return description;
+        return this.description;
     }
 
+    /**
+     * Возвращает копию списка UID друзей пользователя.
+     *
+     * @return список UID друзей
+     */
     public List<String> getFriends() {
         return new ArrayList<>(friends);
     }
