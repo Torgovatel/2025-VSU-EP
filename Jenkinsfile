@@ -93,7 +93,10 @@ pipeline {
         stage('Run App') {
             steps {
                 echo 'Starting Spring Boot application...'
-                bat 'start java -jar aggregator\\target\\aggregator-0.0.1-SNAPSHOT.jar'
+                bat '''
+                    start /B java -jar aggregator\\target\\aggregator-0.0.1-SNAPSHOT.jar
+                    exit 0
+                '''
             }
         }
     }
