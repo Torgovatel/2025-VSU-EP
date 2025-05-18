@@ -8,10 +8,18 @@ import java.util.Map;
 /**
  * Главный класс запуска Spring Boot приложения.
  */
-// CHECKSTYLE:OFF: HideUtilityClassConstructor
-
 @SpringBootApplication
 public class AggregatorApplication {
+
+    private AggregatorApplication() {
+        // utility class constructor to satisfy Checkstyle
+    }
+
+    /**
+     * Точка входа в приложение.
+     *
+     * @param args аргументы командной строки
+     */
     public static void main(final String[] args) {
         SpringApplication app = new SpringApplication(
                 AggregatorApplication.class);
