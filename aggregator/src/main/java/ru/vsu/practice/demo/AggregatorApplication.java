@@ -9,7 +9,7 @@ import java.util.Map;
  * Главный класс запуска Spring Boot приложения.
  */
 @SpringBootApplication
-public class AggregatorApplication {
+public final class AggregatorApplication {
 
     private AggregatorApplication() {
         // utility class constructor to satisfy Checkstyle
