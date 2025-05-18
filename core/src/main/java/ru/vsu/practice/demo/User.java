@@ -61,6 +61,7 @@ public class User {
      * @param email email
      * @param description описание
      * @param friends список друзей
+     * @throws IllegalArgumentException если переданные данные некорректны
      */
     public User(final String firstName, final String lastName, final int age,
                 final String email, final String description,
@@ -115,10 +116,21 @@ public class User {
         return new ArrayList<>(friends);
     }
 
+    /**
+     * Устанавливает ID пользователя.
+     *
+     * @param uid уникальный идентификатор
+     */
     public void setId(String uid) {
         this.id = uid;
     }
 
+    /**
+     * Устанавливает имя пользователя.
+     *
+     * @param firstName имя
+     * @throws IllegalArgumentException если имя null или содержит недопустимые символы
+     */
     public void setFirstName(String firstName) {
         if (firstName == null || !NAME_PATTERN.matcher(firstName).matches()) {
             throw new IllegalArgumentException(
@@ -127,6 +139,12 @@ public class User {
         this.firstName = firstName;
     }
 
+    /**
+     * Устанавливает фамилию пользователя.
+     *
+     * @param lastName фамилия
+     * @throws IllegalArgumentException если фамилия null или содержит недопустимые символы
+     */
     public void setLastName(String lastName) {
         if (lastName == null || !NAME_PATTERN.matcher(lastName).matches()) {
             throw new IllegalArgumentException(
@@ -135,6 +153,12 @@ public class User {
         this.lastName = lastName;
     }
 
+    /**
+     * Устанавливает возраст пользователя.
+     *
+     * @param age возраст
+     * @throws IllegalArgumentException если возраст меньше 12
+     */
     public void setAge(int age) {
         if (age < 12) {
             throw new IllegalArgumentException(
@@ -143,6 +167,12 @@ public class User {
         this.age = age;
     }
 
+    /**
+     * Устанавливает email пользователя.
+     *
+     * @param email email-адрес
+     * @throws IllegalArgumentException если email null или в некорректном формате
+     */
     public void setEmail(String email) {
         if (email == null || !EMAIL_PATTERN.matcher(email).matches()) {
             throw new IllegalArgumentException("Invalid email format.");
@@ -150,10 +180,21 @@ public class User {
         this.email = email;
     }
 
+    /**
+     * Устанавливает описание пользователя.
+     *
+     * @param description описание
+     */
     public void setDescription(String description) {
         this.description = description;
     }
 
+    /**
+     * Устанавливает список друзей.
+     *
+     * @param friends список UID друзей
+     * @throws IllegalArgumentException если UID недопустим
+     */
     public void setFriends(List<String> friends) {
         if (friends == null) {
             this.friends = new ArrayList<>();
@@ -170,6 +211,12 @@ public class User {
         this.friends = new ArrayList<>(friends);
     }
 
+    /**
+     * Добавляет UID друга.
+     *
+     * @param uid UID друга
+     * @throws IllegalArgumentException если UID недопустим
+     */
     public void addFriend(String uid) {
         if (uid == null || !UUID_PATTERN.matcher(uid).matches()) {
             throw new IllegalArgumentException(
@@ -180,6 +227,12 @@ public class User {
         }
     }
 
+    /**
+     * Удаляет UID друга.
+     *
+     * @param uid UID друга
+     * @throws IllegalArgumentException если UID недопустим
+     */
     public void removeFriend(String uid) {
         if (uid == null || !UUID_PATTERN.matcher(uid).matches()) {
             throw new IllegalArgumentException(
