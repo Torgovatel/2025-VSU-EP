@@ -14,8 +14,6 @@ import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 /**
  * Сервис для управления пользователями.
