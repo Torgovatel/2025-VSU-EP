@@ -89,16 +89,6 @@ pipeline {
                 echo 'Artifacts copied to C:\\tmp\\artifacts\\'
             }
         }
-
-        stage('Run App') {
-            steps {
-                echo 'Starting Spring Boot application...'
-                bat '''
-                    start /B java -jar aggregator\\target\\aggregator-0.0.1-SNAPSHOT.jar
-                    exit 0
-                '''
-            }
-        }
     }
 
     post {
