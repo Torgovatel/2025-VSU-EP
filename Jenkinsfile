@@ -18,7 +18,7 @@ pipeline {
             steps {
                 script {
                     if (!env.BRANCH_NAME) {
-                        def branch = bat(
+                        def branch = bat( 
                             script: 'git name-rev --name-only HEAD',
                             returnStdout: true
                         ).trim()
