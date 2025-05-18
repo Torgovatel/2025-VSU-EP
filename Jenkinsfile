@@ -4,7 +4,7 @@ pipeline {
     environment {
         MAVEN_HOME = tool 'Maven'
         JAVA_HOME = tool 'JDK21'
-        PATH = "${JAVA_HOME}\\bin;${env.PATH}"
+        PATH = "${JAVA_HOME}\\bin;${MAVEN_HOME}\\bin;${env.PATH}"
     }
 
     stages {
