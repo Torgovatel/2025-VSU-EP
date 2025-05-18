@@ -4,13 +4,28 @@ pipeline {
     environment {
         MAVEN_HOME = tool 'Maven'
         JAVA_HOME = tool 'JDK21'
-        PATH = "${JAVA_HOME}/bin:${env.PATH}"
+        PATH = "${JAVA_HOME}\\bin;${env.PATH}"
     }
 
     stages {
         stage('Checkout') {
             steps {
                 checkout scm
+            }
+        }
+
+        stage('Detect Branch') {
+            steps {
+                script {
+                    if (!env.BRANCH_NAME) {
+                        def branch = bat(
+                            script: 'git rev-parse --abbrev-ref HEAD',
+                            returnStdout: true
+                        ).trim()
+                        env.BRANCH_NAME = branch
+                    }
+                    echo "Detected branch: ${env.BRANCH_NAME}"
+                }
             }
         }
 
@@ -23,7 +38,7 @@ pipeline {
         stage('Run Tests (feature/* only)') {
             when {
                 expression {
-                    return env.BRANCH_NAME && env.BRANCH_NAME.startsWith("feature/")
+                    return env.BRANCH_NAME?.startsWith("feature/")
                 }
             }
             steps {
@@ -33,7 +48,9 @@ pipeline {
 
         stage('Static Analysis (develop only)') {
             when {
-                branch 'develop'
+                expression {
+                    return env.BRANCH_NAME == 'develop'
+                }
             }
             steps {
                 bat 'mvn checkstyle:check'
@@ -56,8 +73,8 @@ pipeline {
                     }
 
                     def coverageFile = readFile(jacocoReportPath)
-                    def missed = coverageFile =~ /<counter type="LINE" missed="(\d+)"/
-                    def covered = coverageFile =~ /covered="(\d+)"/
+                    def missed = coverageFile =~ /<counter type="LINE" missed="(\\d+)"/
+                    def covered = coverageFile =~ /covered="(\\d+)"/
 
                     if (!missed || !covered) {
                         error "Cannot read coverage data"
