@@ -4,7 +4,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.Map;
@@ -16,8 +25,15 @@ import java.util.Map;
 @RequestMapping("/api/v1")
 public final class UserController {
 
-    private static final Logger log = LoggerFactory.getLogger(UserController.class);
+    /**
+     * Инстантс логгера.
+     */
+    private static final Logger log = LoggerFactory.getLogger(
+            UserController.class);
 
+    /**
+     * Инстантс сервисного класса для вазимодействия с пользователем.
+     */
     private final UserService userService;
 
     /**
@@ -30,10 +46,10 @@ public final class UserController {
     /**
      * Конструктор с внедрением зависимости UserService.
      *
-     * @param userService сервис пользователей
+     * @param userServiceParam сервис пользователей
      */
-    public UserController(final UserService userService) {
-        this.userService = userService;
+    public UserController(final UserService userServiceParam) {
+        this.userService = userServiceParam;
     }
 
     /**
@@ -43,7 +59,8 @@ public final class UserController {
      * @return список пользователей
      */
     @GetMapping("/users")
-    public ResponseEntity<List<User>> getAllUsers(final @RequestParam Map<String, String> filters) {
+    public ResponseEntity<List<User>> getAllUsers(
+            final @RequestParam Map<String, String> filters) {
         log.info("GET /users with filters: {}", filters);
         try {
             List<User> users = userService.getAll(filters);
@@ -51,7 +68,8 @@ public final class UserController {
             return ResponseEntity.ok(users);
         } catch (Exception e) {
             log.error("Error in getAllUsers: ", e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            return ResponseEntity.status(
+                    HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 
@@ -62,7 +80,8 @@ public final class UserController {
      * @return пользователь
      */
     @GetMapping("/user/{uid}")
-    public ResponseEntity<User> getUserById(final @PathVariable("uid") String uid) {
+    public ResponseEntity<User> getUserById(
+            final @PathVariable("uid") String uid) {
         log.info("GET /user/{}", uid);
         try {
             User user = userService.getById(uid);
@@ -70,7 +89,8 @@ public final class UserController {
             return ResponseEntity.ok(user);
         } catch (Exception e) {
             log.error("Error in getUserById for uid {}: ", uid, e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            return ResponseEntity.status(
+                    HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 
@@ -92,7 +112,8 @@ public final class UserController {
             return ResponseEntity.ok(friends);
         } catch (Exception e) {
             log.error("Error in getUserFriends for uid {}: ", uid, e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            return ResponseEntity.status(
+                    HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 
@@ -103,7 +124,8 @@ public final class UserController {
      * @return статус удаления
      */
     @DeleteMapping("/user/{uid}")
-    public ResponseEntity<Void> deleteUser(final @PathVariable("uid") String uid) {
+    public ResponseEntity<Void> deleteUser(
+            final @PathVariable("uid") String uid) {
         log.info("DELETE /user/{}", uid);
         try {
             userService.delete(uid);
@@ -111,7 +133,8 @@ public final class UserController {
             return ResponseEntity.noContent().build();
         } catch (Exception e) {
             log.error("Error deleting user {}: ", uid, e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            return ResponseEntity.status(
+                    HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 
@@ -130,7 +153,8 @@ public final class UserController {
             return ResponseEntity.ok(created);
         } catch (Exception e) {
             log.error("Error creating user: ", e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            return ResponseEntity.status(
+                    HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 
@@ -152,7 +176,8 @@ public final class UserController {
             return ResponseEntity.ok(updated);
         } catch (Exception e) {
             log.error("Error updating user {}: ", uid, e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            return ResponseEntity.status(
+                    HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 
@@ -168,14 +193,17 @@ public final class UserController {
             final @PathVariable("uid") String uid,
             final @RequestBody Map<String, String> payload) {
         String friendUid = payload.get("friendUid");
-        log.info("PATCH /user/{}/friends/add with friendUid: {}", uid, friendUid);
+        log.info("PATCH /user/{}/friends/add with friendUid: {}",
+                uid, friendUid);
         try {
             userService.addFriend(uid, friendUid);
             log.info("Added friend {} to user {}", friendUid, uid);
             return ResponseEntity.noContent().build();
         } catch (Exception e) {
-            log.error("Error adding friend {} to user {}: ", friendUid, uid, e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            log.error("Error adding friend {} to user {}: ",
+                    friendUid, uid, e);
+            return ResponseEntity.status(
+                    HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 
@@ -191,14 +219,17 @@ public final class UserController {
             final @PathVariable("uid") String uid,
             final @RequestBody Map<String, String> payload) {
         String friendUid = payload.get("friendUid");
-        log.info("PATCH /user/{}/friends/rm with friendUid: {}", uid, friendUid);
+        log.info("PATCH /user/{}/friends/rm with friendUid: {}",
+                uid, friendUid);
         try {
             userService.removeFriend(uid, friendUid);
             log.info("Removed friend {} from user {}", friendUid, uid);
             return ResponseEntity.noContent().build();
         } catch (Exception e) {
-            log.error("Error removing friend {} from user {}: ", friendUid, uid, e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            log.error("Error removing friend {} from user {}: ",
+                    friendUid, uid, e);
+            return ResponseEntity.status(
+                    HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 }
