@@ -19,8 +19,13 @@ import java.util.stream.Collectors;
  */
 public class UserService {
 
+    /** Файл для хранения данных пользователей в формате JSON. */
     private final File storageFile;
+
+    /** Объект для сериализации и десериализации пользователей. */
     private final ObjectMapper mapper;
+
+    /** Список всех пользователей, загруженных из хранилища. */
     private List<User> users;
 
     /**
@@ -78,7 +83,8 @@ public class UserService {
         return users.stream()
                 .filter(u -> Objects.equals(u.getId(), uid))
                 .findFirst()
-                .orElseThrow(() -> new NoSuchElementException("User not found: " + uid));
+                .orElseThrow(() ->
+                        new NoSuchElementException("User not found: " + uid));
     }
 
     /**
@@ -106,7 +112,8 @@ public class UserService {
      * @return созданный пользователь
      * @throws IllegalArgumentException если данные некорректны
      */
-    public synchronized User create(final User user) throws IllegalArgumentException {
+    public synchronized User create(final User user)
+            throws IllegalArgumentException {
         validateUser(user);
         users.add(user);
         saveUsers();
@@ -178,7 +185,8 @@ public class UserService {
      * @param friendUid идентификатор друга
      * @throws IllegalArgumentException если пользователь не найден
      */
-    public synchronized void removeFriend(final String uid, final String friendUid)
+    public synchronized void removeFriend(final String uid,
+                                          final String friendUid)
             throws IllegalArgumentException {
         User user = getById(uid);
         user.removeFriend(friendUid);
@@ -206,14 +214,16 @@ public class UserService {
      */
     private void saveUsers() {
         try {
-            mapper.writerWithDefaultPrettyPrinter().writeValue(storageFile, users);
+            mapper.writerWithDefaultPrettyPrinter()
+                    .writeValue(storageFile, users);
         } catch (IOException e) {
             throw new RuntimeException("Failed to save users to file", e);
         }
     }
 
     /**
-     * Возвращает предикат фильтрации пользователей на основе переданных параметров.
+     * Возвращает предикат фильтрации пользователей
+     * на основе переданных параметров.
      *
      * @param filters фильтры для firstName, lastName, email, age
      * @return предикат фильтрации
@@ -223,8 +233,10 @@ public class UserService {
             String key = entry.getKey();
             String value = entry.getValue().toLowerCase();
             return switch (key) {
-                case "firstName" -> u.getFirstName().toLowerCase().contains(value);
-                case "lastName" -> u.getLastName().toLowerCase().contains(value);
+                case "firstName" ->
+                        u.getFirstName().toLowerCase().contains(value);
+                case "lastName" ->
+                        u.getLastName().toLowerCase().contains(value);
                 case "email" -> u.getEmail().toLowerCase().contains(value);
                 case "age" -> Integer.toString(u.getAge()).equals(value);
                 default -> true;
