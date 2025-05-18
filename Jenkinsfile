@@ -19,7 +19,7 @@ pipeline {
                 script {
                     if (!env.BRANCH_NAME) {
                         def branch = bat(
-                            script: 'git rev-parse --abbrev-ref HEAD',
+                            script: 'git name-rev --name-only HEAD',
                             returnStdout: true
                         ).trim()
                         env.BRANCH_NAME = branch
