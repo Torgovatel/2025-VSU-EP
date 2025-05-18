@@ -30,8 +30,12 @@ public class UserServiceTest {
         jsonFile = tempDir.resolve("users.json").toFile();
         ObjectMapper mapper = new ObjectMapper();
 
-        User user1 = new User("John", "Doe", 30, "john.doe@example.com", "desc", new ArrayList<>());
-        User user2 = new User("Jane", "Smith", 25, "jane.smith@example.com", "desc", new ArrayList<>());
+        User user1 = new User("John", "Doe",
+                30, "john.doe@example.com",
+                "desc", new ArrayList<>());
+        User user2 = new User("Jane", "Smith",
+                25, "jane.smith@example.com",
+                "desc", new ArrayList<>());
 
         user1Id = user1.getId();
         user2Id = user2.getId();

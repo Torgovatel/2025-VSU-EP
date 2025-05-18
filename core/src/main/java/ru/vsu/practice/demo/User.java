@@ -1,6 +1,8 @@
 package ru.vsu.practice.demo;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 import java.util.regex.Pattern;
 
 /**
@@ -9,53 +11,82 @@ import java.util.regex.Pattern;
  */
 public class User {
 
+    /** Паттерн для валидации email. */
     private static final Pattern EMAIL_PATTERN =
             Pattern.compile("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$");
 
+    /** Паттерн для валидации имени и фамилии (только латинские буквы). */
     private static final Pattern NAME_PATTERN =
             Pattern.compile("^[A-Za-z]+$");
 
+    /** Паттерн для проверки UUID. */
     private static final Pattern UUID_PATTERN =
-            Pattern.compile("^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$");
+            Pattern.compile("^[0-9a-fA-F]{8}-"
+                    + "[0-9a-fA-F]{4}-"
+                    + "[1-5][0-9a-fA-F]{3}-"
+                    + "[89abAB][0-9a-fA-F]{3}-"
+                    + "[0-9a-fA-F]{12}$");
 
+    /** Уникальный идентификатор пользователя. */
     private String id;
+
+    /** Имя пользователя. */
     private String firstName;
+
+    /** Фамилия пользователя. */
     private String lastName;
+
+    /** Возраст пользователя. */
     private int age;
+
+    /** Электронная почта. */
     private String email;
+
+    /** Описание пользователя. */
     private String description;
+
+    /** Список UID друзей. */
     private List<String> friends = new ArrayList<>();
 
     /**
-     * Конструктор по умолчанию, необходимый для корректной десериализации (Jackson).
+     * Конструктор по умолчанию, необходимый
+     * для корректной десериализации (Jackson).
      */
     public User() {
         this.id = UUID.randomUUID().toString();
     }
 
     /**
-     * Создает нового пользователя с автоматической генерацией уникального идентификатора.
+     * Создает нового пользователя.
      *
-     * @param firstName   имя пользователя (только латинские буквы)
-     * @param lastName    фамилия пользователя (только латинские буквы)
-     * @param age         возраст (должен быть не меньше 12 лет)
-     * @param email       электронная почта в валидном формате
-     * @param description описание пользователя
-     * @param friends     список UID друзей (должны быть корректными UUID)
-     * @throws IllegalArgumentException при нарушении валидации
+     * @param firstNameParam имя
+     * @param lastNameParam фамилия
+     * @param ageParam возраст
+     * @param emailParam email
+     * @param descriptionParam описание
+     * @param friendsParam список друзей
+     * @throws IllegalArgumentException если переданные данные некорректны
      */
-    public User(String firstName, String lastName, int age, String email,
-                String description, List<String> friends) throws IllegalArgumentException {
+    public User(final String firstNameParam,
+                final String lastNameParam, final int ageParam,
+                final String emailParam, final String descriptionParam,
+                final List<String> friendsParam) {
         this.id = UUID.randomUUID().toString();
-        setFirstName(firstName);
-        setLastName(lastName);
-        setAge(age);
-        setEmail(email);
-        setDescription(description);
-        setFriends(friends);
+        setFirstName(firstNameParam);
+        setLastName(lastNameParam);
+        setAge(ageParam);
+        setEmail(emailParam);
+        setDescription(descriptionParam);
+        setFriends(friendsParam);
     }
 
-    public User create(User user) {
+    /**
+     * Генерирует и присваивает ID, если он отсутствует.
+     *
+     * @param user пользователь
+     * @return пользователь с ID
+     */
+    public User create(final User user) {
         if (user.id == null) {
             user.id = UUID.randomUUID().toString();
         }
@@ -63,166 +94,197 @@ public class User {
     }
 
     /**
-     * @return Уникальный идентификатор пользователя (UUID).
+     * Возвращает уникальный идентификатор пользователя.
+     *
+     * @return ID пользователя
      */
     public String getId() {
-        return id;
+        return this.id;
     }
 
     /**
-     * @return Имя пользователя.
+     * Возвращает имя пользователя.
+     *
+     * @return имя пользователя
      */
     public String getFirstName() {
-        return firstName;
+        return this.firstName;
     }
 
     /**
-     * @return Фамилия пользователя.
+     * Возвращает фамилию пользователя.
+     *
+     * @return фамилия пользователя
      */
     public String getLastName() {
-        return lastName;
+        return this.lastName;
     }
 
     /**
-     * @return Возраст пользователя.
+     * Возвращает возраст пользователя.
+     *
+     * @return возраст пользователя
      */
     public int getAge() {
-        return age;
+        return this.age;
     }
 
-    public Integer GetAge() {return age;}
     /**
-     * @return Адрес электронной почты.
+     * Возвращает email пользователя.
+     *
+     * @return email пользователя
      */
     public String getEmail() {
-        return email;
+        return this.email;
     }
 
     /**
-     * @return Описание пользователя.
+     * Возвращает описание пользователя.
+     *
+     * @return описание пользователя
      */
     public String getDescription() {
-        return description;
+        return this.description;
     }
 
     /**
-     * @return Список UID друзей пользователя.
+     * Возвращает копию списка UID друзей пользователя.
+     *
+     * @return список UID друзей
      */
     public List<String> getFriends() {
-        return new ArrayList<String>(friends);
+        return new ArrayList<>(friends);
+    }
+
+    /**
+     * Устанавливает ID пользователя.
+     *
+     * @param uid уникальный идентификатор
+     */
+    public void setId(final String uid) {
+        this.id = uid;
     }
 
     /**
      * Устанавливает имя пользователя.
      *
-     * @param firstName имя (только буквы)
-     * @throws IllegalArgumentException если имя некорректное
+     * @param firstNameParam имя
+     * @throws IllegalArgumentException если имя null
+     * или содержит недопустимые символы
      */
-    public void setFirstName(String firstName) throws IllegalArgumentException {
-        if (firstName == null || !NAME_PATTERN.matcher(firstName).matches()) {
-            throw new IllegalArgumentException("First name must contain only letters.");
+    public void setFirstName(final String firstNameParam) {
+        if (firstNameParam == null
+                || !NAME_PATTERN.matcher(firstNameParam).matches()) {
+            throw new IllegalArgumentException(
+                    "First name must contain only letters.");
         }
-        this.firstName = firstName;
+        this.firstName = firstNameParam;
     }
 
     /**
      * Устанавливает фамилию пользователя.
      *
-     * @param lastName фамилия (только буквы)
-     * @throws IllegalArgumentException если фамилия некорректная
+     * @param lastNameParam фамилия
+     * @throws IllegalArgumentException если фамилия null
+     * или содержит недопустимые символы
      */
-    public void setLastName(String lastName) throws IllegalArgumentException {
-        if (lastName == null || !NAME_PATTERN.matcher(lastName).matches()) {
-            throw new IllegalArgumentException("Last name must contain only letters.");
+    public void setLastName(final String lastNameParam) {
+        if (lastNameParam == null
+                || !NAME_PATTERN.matcher(lastNameParam).matches()) {
+            throw new IllegalArgumentException(
+                    "Last name must contain only letters.");
         }
-        this.lastName = lastName;
-    }
-    public void setId(String uid) {
-        this.id = uid;
+        this.lastName = lastNameParam;
     }
 
     /**
      * Устанавливает возраст пользователя.
      *
-     * @param age возраст (не менее 12 лет)
-     * @throws IllegalArgumentException если возраст меньше 12 лет
-     * @see <a href="https://example.com/age-policy">Возрастная политика сайта</a>
+     * @param ageParam возраст
+     * @throws IllegalArgumentException если возраст меньше 12
      */
-    public void setAge(int age) throws IllegalArgumentException {
-        if (age < 12) {
-            throw new IllegalArgumentException("Age must be at least 12. See site age policy.");
+    public void setAge(final int ageParam) {
+        final int maxReqAge = 12;
+        if (ageParam < maxReqAge) {
+            throw new IllegalArgumentException(
+                    "Age must be at least 12. See site age policy.");
         }
-        this.age = age;
+        this.age = ageParam;
     }
 
     /**
      * Устанавливает email пользователя.
      *
-     * @param email адрес электронной почты
-     * @throws IllegalArgumentException если email в неправильном формате
+     * @param emailParam email-адрес
+     * @throws IllegalArgumentException если email null
+     * или в некорректном формате
      */
-    public void setEmail(String email) throws IllegalArgumentException {
-        if (email == null || !EMAIL_PATTERN.matcher(email).matches()) {
+    public void setEmail(final String emailParam) {
+        if (emailParam == null
+                || !EMAIL_PATTERN.matcher(emailParam).matches()) {
             throw new IllegalArgumentException("Invalid email format.");
         }
-        this.email = email;
+        this.email = emailParam;
     }
 
     /**
-     * Устанавливает описание профиля пользователя.
+     * Устанавливает описание пользователя.
      *
-     * @param description описание
+     * @param descriptionParam описание
      */
-    public void setDescription(String description) {
-        this.description = description;
+    public void setDescription(final String descriptionParam) {
+        this.description = descriptionParam;
     }
 
     /**
-     * Устанавливает список друзей по UID.
+     * Устанавливает список друзей.
      *
-     * @param friends список UID (должны быть валидными UUID)
-     * @throws IllegalArgumentException если в списке есть невалидные UID
+     * @param friendsParam список UID друзей
+     * @throws IllegalArgumentException если UID недопустим
      */
-    public void setFriends(List<String> friends) throws IllegalArgumentException {
-        if (friends == null) {
-            this.friends = new ArrayList<String>();
+    public void setFriends(final List<String> friendsParam) {
+        if (friendsParam == null) {
+            this.friends = new ArrayList<>();
             return;
         }
 
-        for (String uid : friends) {
+        for (String uid : friendsParam) {
             if (uid == null || !UUID_PATTERN.matcher(uid).matches()) {
-                throw new IllegalArgumentException("Friend UID must be a valid UUID: " + uid);
+                throw new IllegalArgumentException(
+                        "Friend UID must be a valid UUID: " + uid);
             }
         }
 
-        this.friends = new ArrayList<String>(friends);
+        this.friends = new ArrayList<>(friendsParam);
     }
 
     /**
-     * Добавляет друга по UID в список, если его там ещё нет.
+     * Добавляет UID друга.
      *
-     * @param uid UID друга
-     * @throws IllegalArgumentException если UID невалидный
+     * @param uidPrams UID друга
+     * @throws IllegalArgumentException если UID недопустим
      */
-    public void addFriend(String uid) throws IllegalArgumentException {
-        if (uid == null || !UUID_PATTERN.matcher(uid).matches()) {
-            throw new IllegalArgumentException("Friend UID must be a valid UUID: " + uid);
+    public void addFriend(final String uidPrams) {
+        if (uidPrams == null || !UUID_PATTERN.matcher(uidPrams).matches()) {
+            throw new IllegalArgumentException(
+                    "Friend UID must be a valid UUID: " + uidPrams);
         }
-        if (!friends.contains(uid)) {
-            friends.add(uid);
+        if (!friends.contains(uidPrams)) {
+            friends.add(uidPrams);
         }
     }
 
     /**
-     * Удаляет друга по UID из списка.
+     * Удаляет UID друга.
      *
-     * @param uid UID друга
-     * @throws IllegalArgumentException если UID невалидный
+     * @param uidParam UID друга
+     * @throws IllegalArgumentException если UID недопустим
      */
-    public void removeFriend(String uid) throws IllegalArgumentException {
-        if (uid == null || !UUID_PATTERN.matcher(uid).matches()) {
-            throw new IllegalArgumentException("Friend UID must be a valid UUID: " + uid);
+    public void removeFriend(final String uidParam) {
+        if (uidParam == null || !UUID_PATTERN.matcher(uidParam).matches()) {
+            throw new IllegalArgumentException(
+                    "Friend UID must be a valid UUID: " + uidParam);
         }
-        friends.remove(uid);
+        friends.remove(uidParam);
     }
 }
