@@ -13,7 +13,8 @@ import java.util.stream.Collectors;
 
 /**
  * Сервис для управления пользователями.
- * Загружает список пользователей из файла users.json при старте и сохраняет при каждом изменении.
+ * Загружает список пользователей из файла users.json при старте
+ * и сохраняет при каждом изменении.
  * Реализует CRUD-операции и управление списком друзей.
  */
 public class UserService {
@@ -22,13 +23,20 @@ public class UserService {
     private final ObjectMapper mapper;
     private List<User> users;
 
-    public UserService(String externalPath) {
+    /**
+     * Конструктор сервиса пользователей. Загружает данные из файла
+     * или создает новый файл.
+     *
+     * @param externalPath путь к файлу хранения users.json
+     */
+    public UserService(final String externalPath) {
         this.storageFile = new File(externalPath);
         this.mapper = new ObjectMapper();
 
         if (!storageFile.exists()) {
             try {
-                try (InputStream is = getClass().getClassLoader().getResourceAsStream("users.json")) {
+                try (InputStream is = getClass().getClassLoader()
+                        .getResourceAsStream("users.json")) {
                     if (is == null) {
                         storageFile.getParentFile().mkdirs();
                         storageFile.createNewFile();
@@ -48,25 +56,25 @@ public class UserService {
     }
 
     /**
-     * Возвращает всех пользователей с возможностью фильтрации.
+     * Получает список всех пользователей с применением фильтров.
      *
-     * @param filters карта параметров: firstName, lastName, age, email
-     * @return список подходящих пользователей
+     * @param filters карта фильтров: firstName, lastName, email, age
+     * @return отфильтрованный список пользователей
      */
-    public synchronized List<User> getAll(Map<String, String> filters) {
+    public synchronized List<User> getAll(final Map<String, String> filters) {
         return users.stream()
                 .filter(applyFilters(filters))
                 .collect(Collectors.toList());
     }
 
     /**
-     * Возвращает пользователя по UID.
+     * Получает пользователя по идентификатору.
      *
-     * @param uid уникальный идентификатор
-     * @return найденный пользователь
+     * @param uid идентификатор пользователя
+     * @return пользователь
      * @throws NoSuchElementException если пользователь не найден
      */
-    public synchronized User getById(String uid) {
+    public synchronized User getById(final String uid) {
         return users.stream()
                 .filter(u -> Objects.equals(u.getId(), uid))
                 .findFirst()
@@ -74,13 +82,16 @@ public class UserService {
     }
 
     /**
-     * Возвращает друзей пользователя с фильтрацией.
+     * Получает список друзей пользователя с возможностью фильтрации.
      *
-     * @param uid     UID пользователя
-     * @param filters карта параметров фильтрации
+     * @param uid     идентификатор пользователя
+     * @param filters карта фильтров
      * @return список друзей
      */
-    public synchronized List<User> getFriends(String uid, Map<String, String> filters) {
+    public synchronized List<User> getFriends(
+            final String uid,
+            final Map<String, String> filters
+    ) {
         User user = getById(uid);
         return users.stream()
                 .filter(u -> user.getFriends().contains(u.getId()))
@@ -91,11 +102,11 @@ public class UserService {
     /**
      * Создает нового пользователя.
      *
-     * @param user объект пользователя (id генерируется автоматически)
+     * @param user объект пользователя
      * @return созданный пользователь
      * @throws IllegalArgumentException если данные некорректны
      */
-    public synchronized User create(User user) throws IllegalArgumentException {
+    public synchronized User create(final User user) throws IllegalArgumentException {
         validateUser(user);
         users.add(user);
         saveUsers();
@@ -103,14 +114,15 @@ public class UserService {
     }
 
     /**
-     * Обновляет существующего пользователя (кроме uid и email).
+     * Обновляет данные пользователя.
      *
-     * @param uid   UID пользователя
-     * @param patch объект с новыми данными
+     * @param uid   идентификатор пользователя
+     * @param patch объект с обновленными полями
      * @return обновленный пользователь
      * @throws IllegalArgumentException если данные некорректны
      */
-    public synchronized User update(String uid, User patch) throws IllegalArgumentException {
+    public synchronized User update(final String uid, final User patch)
+            throws IllegalArgumentException {
         User existingUser = getById(uid);
 
         if (patch.getFirstName() != null) {
@@ -122,7 +134,6 @@ public class UserService {
         if (patch.getAge() != 0) {
             existingUser.setAge(patch.getAge());
         }
-
         if (patch.getDescription() != null) {
             existingUser.setDescription(patch.getDescription());
         }
@@ -131,29 +142,29 @@ public class UserService {
         }
 
         saveUsers();
-
         return existingUser;
     }
 
     /**
-     * Удаляет пользователя и исключает его из списков друзей других.
+     * Удаляет пользователя по идентификатору и удаляет его из списков друзей.
      *
-     * @param uid UID пользователя для удаления
+     * @param uid идентификатор пользователя
      */
-    public synchronized void delete(String uid) {
+    public synchronized void delete(final String uid) {
         users.removeIf(u -> Objects.equals(u.getId(), uid));
         users.forEach(u -> u.getFriends().remove(uid));
         saveUsers();
     }
 
     /**
-     * Добавляет друга к пользователю.
+     * Добавляет друга пользователю.
      *
-     * @param uid       UID пользователя
-     * @param friendUid UID друга
-     * @throws IllegalArgumentException если UID невалидный
+     * @param uid       идентификатор пользователя
+     * @param friendUid идентификатор друга
+     * @throws IllegalArgumentException если пользователь или друг не найдены
      */
-    public synchronized void addFriend(String uid, String friendUid) throws IllegalArgumentException {
+    public synchronized void addFriend(final String uid, final String friendUid)
+            throws IllegalArgumentException {
         User user = getById(uid);
         getById(friendUid); // проверка существования
         user.addFriend(friendUid);
@@ -163,22 +174,25 @@ public class UserService {
     /**
      * Удаляет друга из списка пользователя.
      *
-     * @param uid       UID пользователя
-     * @param friendUid UID друга
-     * @throws IllegalArgumentException если UID невалидный
+     * @param uid       идентификатор пользователя
+     * @param friendUid идентификатор друга
+     * @throws IllegalArgumentException если пользователь не найден
      */
-    public synchronized void removeFriend(String uid, String friendUid) throws IllegalArgumentException {
+    public synchronized void removeFriend(final String uid, final String friendUid)
+            throws IllegalArgumentException {
         User user = getById(uid);
         user.removeFriend(friendUid);
         saveUsers();
     }
 
-    // Вспомогательные методы
-
+    /**
+     * Загружает пользователей из JSON-файла.
+     */
     private void loadUsers() {
         try {
             if (storageFile.exists()) {
-                users = mapper.readValue(storageFile, new TypeReference<List<User>>() {});
+                users = mapper.readValue(storageFile,
+                        new TypeReference<List<User>>() {});
             } else {
                 users = new ArrayList<>();
             }
@@ -187,6 +201,9 @@ public class UserService {
         }
     }
 
+    /**
+     * Сохраняет текущий список пользователей в файл.
+     */
     private void saveUsers() {
         try {
             mapper.writerWithDefaultPrettyPrinter().writeValue(storageFile, users);
@@ -195,7 +212,13 @@ public class UserService {
         }
     }
 
-    private Predicate<User> applyFilters(Map<String, String> filters) {
+    /**
+     * Возвращает предикат фильтрации пользователей на основе переданных параметров.
+     *
+     * @param filters фильтры для firstName, lastName, email, age
+     * @return предикат фильтрации
+     */
+    private Predicate<User> applyFilters(final Map<String, String> filters) {
         return u -> filters.entrySet().stream().allMatch(entry -> {
             String key = entry.getKey();
             String value = entry.getValue().toLowerCase();
@@ -209,7 +232,13 @@ public class UserService {
         });
     }
 
-    private void validateUser(User user) throws IllegalArgumentException {
+    /**
+     * Валидирует и нормализует данные пользователя.
+     *
+     * @param user объект пользователя
+     * @throws IllegalArgumentException если данные некорректны
+     */
+    private void validateUser(final User user) throws IllegalArgumentException {
         user.setFirstName(user.getFirstName());
         user.setLastName(user.getLastName());
         user.setAge(user.getAge());
