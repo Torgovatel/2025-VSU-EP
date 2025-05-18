@@ -67,7 +67,8 @@ public class User {
      * @param friendsParam список друзей
      * @throws IllegalArgumentException если переданные данные некорректны
      */
-    public User(final String firstNameParam, final String lastNameParam, final int ageParam,
+    public User(final String firstNameParam,
+                final String lastNameParam, final int ageParam,
                 final String emailParam, final String descriptionParam,
                 final List<String> friendsParam) {
         this.id = UUID.randomUUID().toString();
@@ -187,8 +188,9 @@ public class User {
      * @throws IllegalArgumentException если фамилия null
      * или содержит недопустимые символы
      */
-    public void setLastName(String lastNameParam) {
-        if (lastNameParam == null || !NAME_PATTERN.matcher(lastNameParam).matches()) {
+    public void setLastName(final String lastNameParam) {
+        if (lastNameParam == null
+                || !NAME_PATTERN.matcher(lastNameParam).matches()) {
             throw new IllegalArgumentException(
                     "Last name must contain only letters.");
         }
@@ -201,8 +203,9 @@ public class User {
      * @param ageParam возраст
      * @throws IllegalArgumentException если возраст меньше 12
      */
-    public void setAge(int ageParam) {
-        if (ageParam < 12) {
+    public void setAge(final int ageParam) {
+        final int maxReqAge = 12;
+        if (ageParam < maxReqAge) {
             throw new IllegalArgumentException(
                     "Age must be at least 12. See site age policy.");
         }
@@ -216,7 +219,7 @@ public class User {
      * @throws IllegalArgumentException если email null
      * или в некорректном формате
      */
-    public void setEmail(String emailParam) {
+    public void setEmail(final String emailParam) {
         if (emailParam == null
                 || !EMAIL_PATTERN.matcher(emailParam).matches()) {
             throw new IllegalArgumentException("Invalid email format.");
@@ -229,7 +232,7 @@ public class User {
      *
      * @param descriptionParam описание
      */
-    public void setDescription(String descriptionParam) {
+    public void setDescription(final String descriptionParam) {
         this.description = descriptionParam;
     }
 
@@ -239,7 +242,7 @@ public class User {
      * @param friendsParam список UID друзей
      * @throws IllegalArgumentException если UID недопустим
      */
-    public void setFriends(List<String> friendsParam) {
+    public void setFriends(final List<String> friendsParam) {
         if (friendsParam == null) {
             this.friends = new ArrayList<>();
             return;
