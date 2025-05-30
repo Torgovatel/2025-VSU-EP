@@ -61,6 +61,14 @@ pipeline {
             steps {
                 bat 'mvn jacoco:prepare-agent test jacoco:report'
             }
+            post {
+                always {
+                    jacoco(execPattern: 'core\\target\\jacoco.exec')
+                }
+                failure {
+                    echo 'Build failure'
+                }
+            }
         }
 
         stage('Check Coverage Threshold') {
