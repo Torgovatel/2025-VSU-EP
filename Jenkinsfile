@@ -63,7 +63,7 @@ pipeline {
             }
             post {
                 always {
-                    jacoco(execPattern: 'core/target/jacoco.exec')
+                    jacoco(execPattern: 'core\\target\\jacoco.exec')
                 }
                 failure {
                     echo 'Build failure'
