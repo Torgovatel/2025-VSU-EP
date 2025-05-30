@@ -66,7 +66,7 @@ pipeline {
                     jacoco(execPattern: 'core/target/jacoco.exec')
                 }
                 failure {
-                    echo 'Сборка провалена!'
+                    echo 'Build failure'
                 }
             }
         }
