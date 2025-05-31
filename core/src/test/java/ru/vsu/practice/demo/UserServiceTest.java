@@ -85,8 +85,9 @@ public class UserServiceTest {
     @Test
     public void testCreateUser() {
         User newUser = new User("Alice", "Wonder", 28, "alice@example.com", "desc", new ArrayList<>());
-        userService.create(newUser);
+        User tmpUser = userService.create(newUser);
 
+        assertTrue(tmpUser.getId().length() > 0);
         assertEquals(3, userService.getAll(Collections.emptyMap()).size());
 
         Map<String, String> filters = new HashMap<>();
